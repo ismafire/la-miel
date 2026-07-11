@@ -1,0 +1,177 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Background Setup using your La Miel Logo */
+.bg-container {
+    background-image:url('../9dbafce9-47d4-4fdc-9fd9-dfc19d7b72dc.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Keeps the background steady while scrolling */
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* Frosted glass overlay to balance logo visibility and text readability */
+.blur-overlay {
+    background: rgba(255, 255, 255, 0.4); 
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Header/Navigation */
+.shop-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto 30px auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.logo-text {
+    font-size: 24px;
+    font-weight: bold;
+    color: #b55a00; /* Deep honey tone from your logo */
+}
+
+nav a {
+    text-decoration: none;
+    color: #444;
+    margin-left: 20px;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+nav a:hover, nav a.active {
+    color: #b55a00;
+}
+
+/* Grid Layout */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-bottom: 50px;
+}
+
+/* Product Cards */
+.product-card {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Temporary Image Boxes */
+.product-image-placeholder {
+    height: 220px;
+    background-color: #fcefd2; /* Soft honey tint */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #b55a00;
+    font-weight: bold;
+    font-size: 18px;
+    border-bottom: 2px solid #f3a623;
+}
+
+.product-info {
+    padding: 20px;
+    text-align: center;
+}
+
+.product-info h3 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.price {
+    color: #b55a00;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* Buttons */
+.btn-buy {
+    background-color: #f3a623;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.3s;
+}
+
+.btn-buy:hover {
+    background-color: #b55a00;
+}
+/* Multi-image row layouts */
+.product-images-row {
+    display: flex;
+    height: 220px;
+    border-bottom: 2px solid #f3a623;
+}
+
+/* If there are 2 images (Shoes), make them 50% width */
+.product-images-row img {
+    width: 50%;
+    height: 100%;
+    object-fit: cover;
+    border-right: 1px solid rgba(0,0,0,0.1);
+}
+
+/* If there are 3 images (Dresses), split them equally into 33.3% width */
+.product-images-row.three-images img {
+    width: 33.33%;
+}
+
+/* Remove the right border on the very last image in a row */
+.product-images-row img:last-child {
+    border-right: none;
+}
+/* Horizontal scroll setup for heavy product categories like Kitchen */
+.product-images-scroll {
+    display: flex;
+    overflow-x: auto;
+    height: 220px;
+    border-bottom: 2px solid #f3a623;
+    scroll-snap-type: x mandatory;
+}
+
+/* Ensure each individual item remains beautifully crisp and uniform */
+.product-images-scroll .product-image {
+    min-width: 80%; /* Shows the main photo while hinting at the next one! */
+    height: 100%;
+    object-fit: cover;
+    scroll-snap-align: start;
+    border-right: 2px solid rgba(243, 166, 35, 0.3);
+}
+
+/* Hide ugly default browser scrollbars while keeping functionality fluid */
+.product-images-scroll::-webkit-scrollbar {
+    height: 6px;
+}
+.product-images-scroll::-webkit-scrollbar-thumb {
+    background: #f3a623;
+    border-radius: 10px;
+}

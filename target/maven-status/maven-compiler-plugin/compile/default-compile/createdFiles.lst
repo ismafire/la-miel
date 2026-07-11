@@ -1,0 +1,5 @@
+com\lamiel\store\Product.class
+com\lamiel\store\Cart.class
+com\lamiel\store\StoreController.class
+com\lamiel\store\ProductRepository.class
+com\lamiel\store\LaMielApplication.class
