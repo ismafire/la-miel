@@ -7,44 +7,92 @@
     <title>La Miel - Boutique</title>
 </head>
 <body>
-    <div class="bg-container">
-        <div class="blur-overlay">
 
-            <header class="shop-header">
-                <div class="logo-text">La Miel</div>
-                <nav>
-                    <a href="#" class="active">All Products</a>
-                    <a href="#">Fashion</a>
-                    <a href="#">Home &amp; Living</a>
-                    <a href="#">Wellness</a>
-                </nav>
-            </header>
+    <header class="shop-header">
+        <div class="logo-text">LA <span>MIEL</span></div>
+        <div class="header-right">
+            <nav>
+                <a href="#" class="active" data-filter="all">All</a>
+                <a href="#" data-filter="clothing">Clothing</a>
+                <a href="#" data-filter="shoes">Shoes</a>
+                <a href="#" data-filter="soap">Soap</a>
+                <a href="#" data-filter="kitchen">Kitchen</a>
+                <a href="#" data-filter="tea">Tea</a>
+                <a href="#" data-filter="home">Home</a>
+            </nav>
+            <div class="cart-indicator">
+                Cart (<span th:text="${cartItemsCount}">0</span>) &middot;
+                <span th:text="${'$' + #numbers.formatDecimal(cartTotal, 1, 2)}">$0.00</span>
+            </div>
+        </div>
+    </header>
 
-            <main class="products-grid">
+    <section class="category-section"
+              th:each="entry : ${categorizedProducts}"
+              th:if="${not #lists.isEmpty(entry.value)}"
+              th:id="${entry.key}">
 
-                <div class="product-card" th:each="product : ${products}">
+        <h2 class="category-title" th:text="${#strings.capitalize(entry.key)}">Category</h2>
 
-                    <div th:class="${#lists.size(product.imageNames) > 3} ? 'product-images-scroll' : 'product-images-row'">
-                        <img th:each="imgName : ${product.imageNames}"
-                             th:src="@{'/' + ${imgName}}"
-                             th:alt="${product.name}"
-                             class="product-image">
-                    </div>
+        <div class="products-grid">
+            <div class="product-card" th:each="product : ${entry.value}">
 
-                    <div class="product-info">
-                        <h3 th:text="${product.name}">Product Name</h3>
-                        <p class="price" th:text="${'$' + #numbers.formatDecimal(product.price, 1, 2)}">$0.00</p>
-                        <form th:action="@{/cart/add}" method="post">
-                            <input type="hidden" name="productId" th:value="${product.id}">
-                            <button type="submit" class="btn-buy">Add to Cart</button>
-                        </form>
-                    </div>
-
+                <div th:if="${#lists.size(product.imageNames) == 1}" class="product-image-single">
+                    <img th:src="@{'/' + ${product.imageNames[0]}}" th:alt="${product.name}">
                 </div>
 
-            </main>
+                <div th:if="${#lists.size(product.imageNames) > 1 and #lists.size(product.imageNames) <= 3}"
+                     class="product-images-row">
+                    <img th:each="imgName : ${product.imageNames}"
+                         th:src="@{'/' + ${imgName}}"
+                         th:alt="${product.name}">
+                </div>
 
+                <div th:if="${#lists.size(product.imageNames) > 3}" class="product-images-scroll">
+                    <img th:each="imgName : ${product.imageNames}"
+                         th:src="@{'/' + ${imgName}}"
+                         th:alt="${product.name}"
+                         class="product-image">
+                </div>
+
+                <div class="product-info">
+                    <h3 th:text="${product.name}">Product Name</h3>
+                    <p class="price" th:text="${'$' + #numbers.formatDecimal(product.price, 1, 2)}">$0.00</p>
+                    <form th:action="@{/cart/add}" method="post">
+                        <input type="hidden" name="productId" th:value="${product.id}">
+                        <button type="submit" class="btn-buy">Add</button>
+                    </form>
+                </div>
+
+            </div>
         </div>
-    </div>
+    </section>
+
+    <script>
+        // Show only the clicked category's section; "All" shows everything again.
+        document.addEventListener('DOMContentLoaded', function () {
+            var navLinks = document.querySelectorAll('nav a[data-filter]');
+            var sections = document.querySelectorAll('.category-section');
+
+            navLinks.forEach(function (link) {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    var filter = link.getAttribute('data-filter');
+
+                    navLinks.forEach(function (l) { l.classList.remove('active'); });
+                    link.classList.add('active');
+
+                    sections.forEach(function (section) {
+                        if (filter === 'all' || section.id === filter) {
+                            section.style.display = '';
+                        } else {
+                            section.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+
 </body>
 </html>
