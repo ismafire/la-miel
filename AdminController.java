@@ -6,7 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpSession;
+import java.security.SecureRandom;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 
 @Controller
@@ -37,6 +39,7 @@ public class AdminController {
     public String doLogin(@RequestParam String username, @RequestParam String password, HttpSession session) {
         if (adminUsername.equals(username) && adminPassword.equals(password)) {
             session.setAttribute("isAdmin", true);
+            session.setAttribute("csrfToken", generateCsrfToken());
             return "redirect:/admin";
         }
         return "redirect:/admin/login?error=true";
@@ -55,6 +58,7 @@ public class AdminController {
             return "redirect:/admin/login";
         }
         model.addAttribute("products", productRepository.findAll());
+        model.addAttribute("csrfToken", session.getAttribute("csrfToken"));
         return "admin-dashboard";
     }
 
@@ -64,9 +68,13 @@ public class AdminController {
                               @RequestParam String name,
                               @RequestParam String category,
                               @RequestParam double price,
-                              @RequestParam String imageNames) {
+                              @RequestParam String imageNames,
+                              @RequestParam String csrfToken) {
         if (session.getAttribute("isAdmin") == null) {
             return "redirect:/admin/login";
+        }
+        if (!isValidCsrfToken(session, csrfToken)) {
+            return "redirect:/admin";
         }
         List<String> images = Arrays.asList(imageNames.split("\\s*,\\s*"));
         productRepository.save(new Product(name, category, price, images));
@@ -75,11 +83,26 @@ public class AdminController {
 
     // --- Delete a product ---
     @PostMapping("/products/delete/{id}")
-    public String deleteProduct(HttpSession session, @PathVariable Long id) {
+    public String deleteProduct(HttpSession session, @PathVariable Long id, @RequestParam String csrfToken) {
         if (session.getAttribute("isAdmin") == null) {
             return "redirect:/admin/login";
         }
+        if (!isValidCsrfToken(session, csrfToken)) {
+            return "redirect:/admin";
+        }
         productRepository.deleteById(id);
         return "redirect:/admin";
+    }
+
+    // --- CSRF helpers ---
+    private String generateCsrfToken() {
+        byte[] randomBytes = new byte[32];
+        new SecureRandom().nextBytes(randomBytes);
+        return Base64.getUrlEncoder().withoutPadding().encodeToString(randomBytes);
+    }
+
+    private boolean isValidCsrfToken(HttpSession session, String submittedToken) {
+        Object sessionToken = session.getAttribute("csrfToken");
+        return sessionToken != null && sessionToken.equals(submittedToken);
     }
 }
