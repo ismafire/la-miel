@@ -2,176 +2,225 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Roboto, sans-serif;
 }
 
-/* Background Setup using your La Miel Logo */
-.bg-container {
-    background-image:url('../9dbafce9-47d4-4fdc-9fd9-dfc19d7b72dc.jpg');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed; /* Keeps the background steady while scrolling */
-    min-height: 100vh;
-    width: 100%;
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background: #fdf8f0;
+    color: #3b2412;
+    -webkit-font-smoothing: antialiased;
 }
 
-/* Frosted glass overlay to balance logo visibility and text readability */
-.blur-overlay {
-    background: rgba(255, 255, 255, 0.4); 
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    min-height: 100vh;
-    padding: 20px;
-}
-
-/* Header/Navigation */
+/* ===== Header ===== */
 .shop-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1200px;
-    margin: 0 auto 30px auto;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.85);
-    border-radius: 50px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    padding: 24px 40px;
+    border-bottom: 1px solid #e8d9bd;
+    position: sticky;
+    top: 0;
+    background: #fdf8f0;
+    z-index: 100;
 }
 
 .logo-text {
-    font-size: 24px;
-    font-weight: bold;
-    color: #b55a00; /* Deep honey tone from your logo */
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #3b2412;
+}
+
+.logo-text span {
+    color: #b8860b;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+nav {
+    display: flex;
+    gap: 28px;
 }
 
 nav a {
     text-decoration: none;
-    color: #444;
-    margin-left: 20px;
+    color: #3b2412;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 500;
+    padding-bottom: 4px;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
+}
+
+nav a:hover,
+nav a.active {
+    border-bottom: 1px solid #b8860b;
+}
+
+.cart-indicator {
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
     font-weight: 600;
-    transition: color 0.3s;
+    color: #3b2412;
+    white-space: nowrap;
 }
 
-nav a:hover, nav a.active {
-    color: #b55a00;
+/* ===== Category Sections ===== */
+.category-section {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 60px 40px 20px 40px;
 }
 
-/* Grid Layout */
+.category-title {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #3b2412;
+    margin-bottom: 28px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #b8860b;
+}
+
+/* ===== Product Grid ===== */
 .products-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 25px;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding-bottom: 50px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px 24px;
 }
 
-/* Product Cards */
+@media (max-width: 1000px) {
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 560px) {
+    .products-grid {
+        grid-template-columns: 1fr;
+    }
+    .shop-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+    nav {
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+}
+
+/* ===== Product Card ===== */
 .product-card {
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease;
-}
-
-.product-card:hover {
-    transform: translateY(-5px);
-}
-
-/* Temporary Image Boxes */
-.product-image-placeholder {
-    height: 220px;
-    background-color: #fcefd2; /* Soft honey tint */
+    background: transparent;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #b55a00;
-    font-weight: bold;
-    font-size: 18px;
-    border-bottom: 2px solid #f3a623;
+    flex-direction: column;
 }
 
 .product-info {
-    padding: 20px;
-    text-align: center;
+    padding: 14px 2px 0 2px;
+    text-align: left;
 }
 
 .product-info h3 {
-    font-size: 18px;
-    color: #333;
-    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #3b2412;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
 }
 
 .price {
-    color: #b55a00;
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 15px;
+    color: #8a6a3d;
+    font-size: 13px;
+    font-weight: 400;
+    margin-bottom: 12px;
 }
 
-/* Buttons */
+/* ===== Buttons ===== */
 .btn-buy {
-    background-color: #f3a623;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 20px;
-    font-weight: bold;
+    background: #fdf8f0;
+    color: #3b2412;
+    border: 1px solid #b8860b;
+    padding: 10px 0;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
     cursor: pointer;
     width: 100%;
-    transition: background 0.3s;
+    transition: background 0.2s ease, color 0.2s ease;
 }
 
 .btn-buy:hover {
-    background-color: #b55a00;
-}
-/* Multi-image row layouts */
-.product-images-row {
-    display: flex;
-    height: 220px;
-    border-bottom: 2px solid #f3a623;
+    background: #b8860b;
+    color: #ffffff;
 }
 
-/* If there are 2 images (Shoes), make them 50% width */
-.product-images-row img {
-    width: 50%;
+/* ===== Image layouts (single, row, scroll) ===== */
+.product-images-row,
+.product-images-scroll {
+    display: flex;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    background: #f3e9d5;
+}
+
+.product-images-row img,
+.product-images-scroll .product-image {
+    width: 100%;
     height: 100%;
     object-fit: cover;
-    border-right: 1px solid rgba(0,0,0,0.1);
+    flex-shrink: 0;
 }
 
-/* If there are 3 images (Dresses), split them equally into 33.3% width */
-.product-images-row.three-images img {
+/* Multiple images side by side (2 or 3 images) */
+.product-images-row img {
+    width: 100%;
+}
+.product-images-row:has(img:nth-child(2)) img {
+    width: 50%;
+}
+.product-images-row:has(img:nth-child(3)) img {
     width: 33.33%;
 }
 
-/* Remove the right border on the very last image in a row */
-.product-images-row img:last-child {
-    border-right: none;
-}
-/* Horizontal scroll setup for heavy product categories like Kitchen */
+/* Horizontal scroll for categories with many images (e.g. kitchen) */
 .product-images-scroll {
-    display: flex;
     overflow-x: auto;
-    height: 220px;
-    border-bottom: 2px solid #f3a623;
     scroll-snap-type: x mandatory;
 }
 
-/* Ensure each individual item remains beautifully crisp and uniform */
 .product-images-scroll .product-image {
-    min-width: 80%; /* Shows the main photo while hinting at the next one! */
-    height: 100%;
-    object-fit: cover;
+    min-width: 85%;
     scroll-snap-align: start;
-    border-right: 2px solid rgba(243, 166, 35, 0.3);
 }
 
-/* Hide ugly default browser scrollbars while keeping functionality fluid */
 .product-images-scroll::-webkit-scrollbar {
-    height: 6px;
+    height: 4px;
 }
 .product-images-scroll::-webkit-scrollbar-thumb {
-    background: #f3a623;
-    border-radius: 10px;
+    background: #b8860b;
+}
+
+/* Single image */
+.product-image-single {
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    background: #f3e9d5;
+}
+.product-image-single img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
